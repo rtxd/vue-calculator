@@ -1,5 +1,4 @@
 <template>
-  <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   <Calculator />
 </template>
 
@@ -22,5 +21,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  font-size: 32px;
 }
 </style>

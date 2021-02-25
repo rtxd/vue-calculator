@@ -1,25 +1,25 @@
 <template>
     <div class="calculator">
-        <div class="display">{{display}}</div>
-        <div @click="clear" class="button operator">C</div>
-        <div class="button operator">+/-</div>
-        <div @click="append('%')" class="button operator">%</div>
-        <div @click="append('÷')" class="button operator">÷</div>
+        <div class="display">{{currentNumber}}</div>
+        <div @click="clear" class="button operator">AC</div>
+        <div class="button operator">Delete</div>
+        <div v-on:click="append('%'); selectOperation('%');" class="button operator">%</div>
+        <div v-on:click="append('÷'); selectOperation('÷');" class="button operator">÷</div>
         <div @click="append('7')" class="button">7</div>
         <div @click="append('8')" class="button">8</div>
         <div @click="append('9')" class="button">9</div>
-        <div @click="append('×')" class="button operator">×</div>
+        <div v-on:click="append('×'); selectOperation('×');" class="button operator">×</div>
         <div @click="append('4')" class="button">4</div>
         <div @click="append('5')" class="button">5</div>
         <div @click="append('6')" class="button">6</div>
-        <div @click="append('-')" class="button operator">-</div>
+        <div v-on:click="append('-'); selectOperation('-');" class="button operator">-</div>
         <div @click="append('1')" class="button">1</div>
         <div @click="append('2')" class="button">2</div>
         <div @click="append('3')" class="button">3</div>
-        <div @click="append('+')" class="button operator">+</div>
+        <div v-on:click="append('+'); selectOperation('+');" class="button operator">+</div>
         <div @click="append('0')" class="button zero">0</div>
         <div @click="append('.')" class="button">.</div>
-        <div class="button operator">=</div>
+        <div @click="compute()" class="button operator">=</div>
     </div>
 </template>
 
@@ -28,16 +28,39 @@ export default {
     name: 'Calculator',
     data() {
         return {
-            display: ""
+            currentNumber: '',
+            previousNumber: '',
+            operation: undefined
         }
     },
     methods: {
         clear() {
-            this.display = '';
+            this.currentNumber = '';
+            this.previousNumber = '';
+            this.operation = undefined;
         },
         append(number) {
-            this.display = this.display.concat(number);
+            if(number === '.' && this.currentNumber.indexOf('.') !== -1)
+            {
+                return;
+            }
+            this.currentNumber = this.currentNumber.concat(number);
+        },
+        delete() {
+
+        },
+        selectOperation(operator){
+            //previous number = current number - operation sign
+            //When you click the + symbol it grabs the number
+            this.previousNumber = this.currentNumber.replace(operator, '');
+            this.operation = operator;
+            this.currentNumber ='';
+            console.log(this.previousNumber);
+        },
+        compute(){
+            console.log(this.previousNumber + this.operation + this.currentNumber);
         }
+
     }
 }
 </script>
